@@ -1,0 +1,2 @@
+# Optional server-side PDF export (needs Pango/HarfBuzz native libraries; installed in the Docker image).
+weasyprint>=62

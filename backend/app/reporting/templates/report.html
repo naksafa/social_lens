@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ business.business_name if business else project.name }} - Social Media Audit</title>
+<style>
+  :root { --ink:#0b0b0b; --ink2:#52514e; --muted:#8a8984; --line:#e4e3df; --surface:#fcfcfb; --card:#ffffff;
+          --accent:#4f46e5; --good:#0ca30c; --warn:#b77b00; --bad:#d03b3b; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; color:var(--ink);
+         background:var(--surface); font-size:13px; line-height:1.55; }
+  .page { max-width: 900px; margin: 0 auto; padding: 40px 48px; }
+  h1 { font-size: 34px; letter-spacing:-0.02em; margin: 0 0 8px; line-height:1.15; }
+  h2 { font-size: 19px; margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line); letter-spacing:-0.01em; }
+  h3 { font-size: 14px; margin: 18px 0 8px; }
+  p { margin: 0 0 10px; }
+  .muted { color: var(--ink2); }
+  .small { font-size: 11px; }
+  .cover { min-height: 88vh; display:flex; flex-direction:column; justify-content:center; border-bottom: 1px solid var(--line); }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 11px; color: var(--accent); font-weight:600; }
+  .brand { font-weight:700; font-size: 13px; margin-bottom: 64px; }
+  .brand span { color: var(--accent); }
+  .meta { display:grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+  .meta div { border-top: 2px solid var(--ink); padding-top: 8px; }
+  .meta b { display:block; font-size: 11px; text-transform:uppercase; letter-spacing:.08em; color: var(--ink2); }
+  table { width:100%; border-collapse: collapse; margin: 8px 0 14px; font-size: 12px; }
+  th, td { text-align:left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink2); font-weight:600; }
+  td.num, th.num { text-align:right; font-variant-numeric: tabular-nums; }
+  .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .card { background: var(--card); border:1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; break-inside: avoid; }
+  .card h4 { margin: 0 0 4px; font-size: 13px; }
+  .pill { display:inline-block; font-size: 10px; padding: 1px 7px; border-radius: 99px; border:1px solid var(--line); color: var(--ink2); margin-right: 4px; white-space: nowrap; }
+  .pill.high { border-color:#c7c3f5; color:#3f37c9; } .pill.medium { color:#6b5a00; border-color:#ecd98a; } .pill.low { color: var(--muted); }
+  .sev-critical, .sev-high { border-left: 3px solid var(--bad); }
+  .sev-medium { border-left: 3px solid var(--warn); }
+  .sev-low, .sev-info { border-left: 3px solid var(--line); }
+  .positive { border-left: 3px solid var(--good); }
+  .evidence { font-size: 11.5px; color: var(--ink2); margin-top: 4px; }
+  .summary { font-size: 14.5px; line-height: 1.65; }
+  .chart { display:block; margin: 4px 0 8px; }
+  .chart-empty { font-size: 11px; color: var(--muted); padding: 20px 0; }
+  .swatch { display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px; vertical-align:-1px; }
+  .note { background:#f4f3ef; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: var(--ink2); }
+  .toolbar { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--line); padding: 8px 48px; display:flex; justify-content:flex-end; gap: 8px; z-index: 2; }
+  .toolbar button { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 8px; border:1px solid var(--line); background: var(--card); cursor:pointer; }
+  footer { margin-top: 40px; padding-top: 12px; border-top:1px solid var(--line); font-size: 11px; color: var(--muted); }
+  @media (max-width: 700px) { .page { padding: 24px 16px; } .grid2, .meta { grid-template-columns: 1fr; } .toolbar { padding: 8px 16px; } }
+  @page { size: A4; margin: 16mm 14mm; }
+  @media print {
+    body { background: #fff; font-size: 11.5px; }
+    .toolbar { display: none; }
+    .page { padding: 0; max-width: none; }
+    .cover { min-height: 250mm; page-break-after: always; border: 0; }
+    h2 { page-break-after: avoid; }
+    .pagebreak { page-break-before: always; }
+    .card, table, svg { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">Print / Save as PDF</button></div>
+<div class="page">
+
+<section class="cover">
+  <div class="brand">SocialLens <span>AI</span></div>
+  <div class="eyebrow">Social media audit &amp; marketing strategy</div>
+  <h1>{{ business.business_name if business else project.name }}</h1>
+  <p class="muted" style="font-size:15px">{{ business.industry if business }}{% if business and business.city_market %} · {{ business.city_market }}, {{ business.country }}{% endif %}</p>
+  <div class="meta">
+    <div><b>Analysis period</b>{{ s.overview.period_start }} → {{ s.overview.period_end }}<br><span class="muted small">{{ s.overview.period_days }} days · {{ s.overview.total_posts }} posts</span></div>
+    <div><b>Platforms</b>{% for p in s.platforms %}<span class="swatch" style="background:{{ platform_colors.get(p, '#999') }}"></span>{{ p|platform }}{% if not loop.last %}<br>{% endif %}{% endfor %}</div>
+    <div><b>Generated</b>{{ generated_at }}<br><span class="muted small">Analysis v{{ run.analysis_version }}{% if audit %} · Audit v{{ audit._version }} ({{ audit._generated_by }}){% endif %}</span></div>
+  </div>
+</section>
+
+<h2>1. Business details</h2>
+{% if business %}
+<table>
+  <tr><th style="width:28%">Products / services</th><td>{{ business.products_services }}</td></tr>
+  <tr><th>Target audience</th><td>{{ business.target_audience }}</td></tr>
+  <tr><th>Business objective</th><td>{{ business.business_objective }}</td></tr>
+  <tr><th>Marketing objectives</th><td>{% for o in business.marketing_objectives %}<span class="pill">{{ o|label }}</span>{% endfor %}</td></tr>
+  {% if business.competitors %}<tr><th>Competitors</th><td>{{ business.competitors|join(", ") }}</td></tr>{% endif %}
+  <tr><th>Monthly budget</th><td>{{ (business.monthly_budget|num ~ " " ~ (business.budget_currency or "")) if business.monthly_budget else "Not provided" }}</td></tr>
+  <tr><th>Current posting frequency</th><td>{{ business.current_posting_frequency or "Not provided" }}</td></tr>
+</table>
+{% endif %}
+
+<h2>2. Executive summary</h2>
+{% if audit %}
+<p class="summary">{{ audit.executive_summary }}</p>
+<p class="muted small">Written by the {{ audit._generated_by }}{% if audit._model %} ({{ audit._model }}){% endif %} from verified analytics.
+{% if audit._verification and audit._verification.status == "needs_review" %} {{ audit._verification.unverified_count }} number(s) could not be matched to the analytics and should be reviewed.{% endif %}</p>
+{% else %}
+<p class="summary">{{ s.overview.total_posts }} posts analyzed across {{ s.platforms|length }} platform(s). The key issues and opportunities identified by the analytics engine are listed below. Generate the audit in the app for a written summary.</p>
+{% endif %}
+
+<h2>3. Platform overview</h2>
+<table>
+  <tr><th>Platform</th><th class="num">Posts</th><th class="num">Posts / week</th><th>Exposure metric</th><th class="num">Median exposure</th><th class="num">Median ER</th><th class="num">Followers gained</th><th class="num">Clicks</th><th>Consistency</th></tr>
+  {% for p, d in s.platforms.items() %}{% set m = d.kpis.metrics %}
+  <tr>
+    <td><span class="swatch" style="background:{{ platform_colors.get(p) }}"></span>{{ p|platform }}</td>
+    <td class="num">{{ m.total_posts|num }}</td><td class="num">{{ m.posts_per_week|num(1) }}</td>
+    <td>{{ d.exposure_metric or "—" }}</td>
+    <td class="num">{{ (m.median_reach or m.median_views)|num }}</td>
+    <td class="num">{{ m.median_engagement_rate|num(2) }}{% if m.median_engagement_rate is not none %}%{% endif %}</td>
+    <td class="num">{{ m.follower_growth|num }}</td><td class="num">{{ m.total_clicks|num }}</td>
+    <td>{{ d.posting.consistency }} ({{ d.posting.consistency_score|num }})</td>
+  </tr>{% endfor %}
+</table>
+<p class="muted small">Engagement rate = (likes + comments + shares + saves, where reported) / the platform's exposure metric × 100. Exposure definitions differ by platform, so raw values are not compared across platforms.</p>
+
+<h2 class="pagebreak">4. Performance charts</h2>
+{% for p, c in platform_charts.items() %}
+<div class="grid2"><div>{{ c.trend|safe }}</div><div>{{ c.formats|safe }}</div></div>
+{% endfor %}
+<p class="muted small">* Fewer than 5 posts in the group - interpret with caution.</p>
+
+<h2>5. Strengths &amp; weaknesses</h2>
+<div class="grid2">
+  <div>
+    <h3>Strengths</h3>
+    {% for i in (audit.strengths if audit else []) %}<div class="card positive"><h4>{{ i.title }}</h4><div class="evidence">{{ i.evidence }}</div><span class="pill {{ i.confidence }}">{{ i.confidence }} confidence</span><span class="pill">{{ i.platform|platform }}</span></div>
+    {% else %}{% for i in insights if i.sentiment == "positive" %}<div class="card positive"><h4>{{ i.title }}</h4><div class="evidence">{{ i.description }}</div><span class="pill {{ i.confidence.value }}">{{ i.confidence.value }} confidence</span></div>{% endfor %}{% endfor %}
+  </div>
+  <div>
+    <h3>Weaknesses</h3>
+    {% for i in (audit.weaknesses if audit else []) %}<div class="card sev-{{ 'high' if i.impact == 'high' else 'medium' }}"><h4>{{ i.title }}</h4><div class="evidence">{{ i.evidence }}</div><span class="pill {{ i.confidence }}">{{ i.confidence }} confidence</span><span class="pill">{{ i.platform|platform }}</span></div>
+    {% else %}{% for i in insights if i.sentiment == "negative" %}<div class="card sev-{{ i.severity.value }}"><h4>{{ i.title }}</h4><div class="evidence">{{ i.description }}</div><span class="pill {{ i.confidence.value }}">{{ i.confidence.value }} confidence</span></div>{% endfor %}{% endfor %}
+  </div>
+</div>
+{% if audit and audit.opportunities %}
+<h3>Opportunities</h3>
+{% for i in audit.opportunities %}<div class="card"><h4>{{ i.title }}</h4><div class="evidence">{{ i.explanation }}</div><span class="pill {{ i.confidence }}">{{ i.confidence }} confidence</span><span class="pill">{{ i.platform|platform }}</span></div>{% endfor %}
+{% endif %}
+
+<h2 class="pagebreak">6. Content analysis</h2>
+{{ mix_chart|safe }}
+<h3>Statistically supported findings</h3>
+<table>
+  <tr><th>Finding</th><th>Confidence</th><th class="num">n</th><th class="num">adj. p</th><th class="num">Effect</th></tr>
+  {% for f in findings %}<tr><td>{{ f.statement }}</td><td><span class="pill {{ f.confidence }}">{{ f.confidence }}</span></td><td class="num">{{ f.sample_size }}</td><td class="num">{{ "—" if f.p_adjusted is none else ("<0.001" if f.p_adjusted < 0.001 else f.p_adjusted) }}</td><td class="num">{{ f.effect_size if f.effect_size is not none else "—" }}</td></tr>{% endfor %}
+</table>
+{% if audit %}
+<div class="grid2">
+  <div><h3>Best-performing patterns</h3>{% for i in audit.best_content_patterns %}<div class="card positive"><h4>{{ i.title }}</h4><div class="evidence">{{ i.evidence }}</div></div>{% endfor %}</div>
+  <div><h3>Weakest patterns</h3>{% for i in audit.worst_content_patterns %}<div class="card sev-medium"><h4>{{ i.title }}</h4><div class="evidence">{{ i.evidence }}</div></div>{% endfor %}</div>
+</div>
+{% if audit.content_gaps %}<h3>Content gaps</h3>{% for i in audit.content_gaps %}<div class="card"><h4>{{ i.title }}</h4><div class="evidence">{{ i.explanation }}</div></div>{% endfor %}{% endif %}
+{% endif %}
+
+<h2>7. Audience insights</h2>
+{% if audit and audit.audience_insights %}
+{% for i in audit.audience_insights %}<div class="card"><h4>{{ i.title }}</h4><div class="evidence">{{ i.explanation }}</div></div>{% endfor %}
+{% else %}
+{% for p, d in s.platforms.items() %}{% for sig in d.audience.signals %}<div class="card"><h4>{{ p|platform }}</h4><div class="evidence">{{ sig.description }}</div></div>{% endfor %}{% endfor %}
+{% endif %}
+<p class="muted small">Exports contain no demographic data; audience insights describe interaction behaviour.</p>
+
+<h2>8. Cross-platform findings</h2>
+<table>
+  <tr><th>Question</th><th>Platform</th><th class="num">Value</th></tr>
+  {% set names = {"strongest_relative_engagement": "Strongest engagement relative to its own exposure", "most_traffic": "Most traffic (total clicks)", "most_traffic_efficient": "Most click-efficient (per 1k exposure)", "strongest_video_retention": "Strongest video retention", "most_consistent_publishing": "Most consistent publishing", "strongest_follower_conversion": "Best follower conversion", "underutilized": "Appears underutilized"} %}
+  {% for k, v in s.cross_platform.answers.items() %}<tr><td>{{ names.get(k, k) }}</td><td>{{ v.label if v else "Insufficient data" }}</td><td class="num">{{ (v.value if v and v.value is defined and v.value is not none else (v.efficiency_rank_pct ~ " pct rank" if v and v.efficiency_rank_pct is defined else "—")) }}</td></tr>{% endfor %}
+</table>
+<p class="note">{{ s.cross_platform.methodology }}</p>
+
+{% if strategy %}
+<h2 class="pagebreak">9. Recommended strategy</h2>
+<p class="summary">{{ strategy.strategy_summary }}</p>
+<p class="muted small">Written by the {{ strategy._generated_by }}{% if strategy._model %} ({{ strategy._model }}){% endif %}.</p>
+{% for ps in strategy.platform_strategies %}
+<div class="card"><h4><span class="swatch" style="background:{{ platform_colors.get(ps.platform, '#999') }}"></span>{{ ps.platform|platform }} - {{ ps.role }}</h4>
+  <p><b>Goal:</b> {{ ps.goal }} · <b>Frequency:</b> {{ ps.posting_frequency }} · <b>Formats:</b> {{ ps.formats|join(", ") }}</p>
+  <p class="evidence"><b>Content mix:</b> {% for m in ps.content_mix %}{{ m.pillar|label }} {{ m.share_pct }}%{% if not loop.last %} · {% endif %}{% endfor %}</p>
+  <p class="evidence"><b>CTA:</b> {{ ps.cta_approach }}</p>
+  <p class="evidence"><b>Video:</b> {{ ps.video_guidance }}</p>
+</div>{% endfor %}
+<h3>Priority recommendations</h3>
+<table>
+  <tr><th>Recommendation</th><th>Platform</th><th>Priority</th><th>Impact</th><th>Effort</th><th>Confidence</th></tr>
+  {% for r in strategy.recommendations %}<tr><td><b>{{ r.title }}</b><div class="evidence">{{ r.explanation }}</div></td><td>{{ r.platform|platform }}</td><td>{{ r.priority }}</td><td>{{ r.impact }}</td><td>{{ r.effort }}</td><td>{{ r.confidence }}</td></tr>{% endfor %}
+</table>
+<h3>30-day action plan</h3>
+<div class="grid2">{% for w in strategy.action_plan_30_days %}<div class="card"><h4>Week {{ w.week }} - {{ w.focus }}</h4><ul class="small">{% for a in w.actions %}<li>{{ a }}</li>{% endfor %}</ul></div>{% endfor %}</div>
+{% endif %}
+
+{% if plan %}
+<h2 class="pagebreak">10. 30-day content plan</h2>
+<table>
+  <tr><th>Day</th><th>Platform</th><th>Pillar</th><th>Format</th><th>Topic &amp; hook</th><th>CTA</th><th>Objective</th></tr>
+  {% for e in plan.entries %}<tr><td>{{ e.date or e.day }}</td><td>{{ e.platform|platform }}</td><td>{{ e.pillar }}</td><td>{{ e.format }}</td><td><b>{{ e.topic }}</b><div class="evidence">"{{ e.hook }}"</div></td><td>{{ e.cta }}</td><td>{{ e.objective }}</td></tr>{% endfor %}
+</table>
+{% endif %}
+
+{% if strategy %}
+<h2>11. KPIs to track</h2>
+<table>
+  <tr><th>KPI</th><th>Platform</th><th>Definition</th><th>Baseline</th><th>Target</th><th>Review</th></tr>
+  {% for k in strategy.measurement_plan %}<tr><td>{{ k.kpi }}</td><td>{{ k.platform|platform }}</td><td>{{ k.definition }}</td><td>{{ k.baseline }}</td><td>{{ k.target_direction }}</td><td>{{ k.review_cadence }}</td></tr>{% endfor %}
+</table>
+{% endif %}
+
+<h2 class="pagebreak">Methodology</h2>
+<p><b>Pipeline.</b> Uploaded exports are validated, mapped to a canonical schema (automatic fuzzy column matching with confidence scores and manual review), and normalized. All metrics, comparisons and findings are computed by the analytics engine before any AI step; the AI layer only interprets these verified results.</p>
+<p><b>Metrics.</b> Engagement = likes + comments + shares + saves (components a platform does not report are excluded, not zero-filled). Engagement rate = engagement / exposure × 100, where exposure is reach (Instagram, Facebook), views (TikTok) or impressions (LinkedIn). Share/save/comment rates use the same denominator; CTR = clicks / impressions × 100.</p>
+<p><b>Statistics.</b> Group comparisons use Mann-Whitney U (rank-biserial effect size) and Kruskal-Wallis (epsilon²), which are robust to the skew of social metrics. Relationships use Spearman correlation; a log-linear OLS model estimates format/pillar effects while controlling for each other. Trends use the Theil-Sen slope on weekly medians. P-values are adjusted for multiple testing with Benjamini-Hochberg (FDR {{ run.parameters.alpha }}). Tests are only run with at least {{ run.parameters.min_test_group_size }} posts per group.</p>
+<p><b>Confidence.</b> High / medium / low confidence combines sample size (≥30 / 10-29 / &lt;10), adjusted significance, effect size and data completeness.</p>
+<p><b>Performance index.</b> {{ s.scoring.method }} Weights for this project: {% for k, v in run.parameters.weights.items() %}{{ k|label }} {{ (v * 100)|round|int }}%{% if not loop.last %}, {% endif %}{% endfor %}.</p>
+<p><b>Cross-platform comparison.</b> {{ s.cross_platform.methodology }}</p>
+<div class="note"><b>Disclaimer.</b> {{ disclaimer }}</div>
+
+<footer>Generated by SocialLens AI · {{ generated_at }} · Analysis version {{ run.analysis_version }}</footer>
+</div>
+</body>
+</html>

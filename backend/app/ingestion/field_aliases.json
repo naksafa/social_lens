@@ -1,0 +1,577 @@
+{
+  "_comment": "Canonical field registry. 'aliases' apply to every platform; 'platform_aliases' only when that platform is detected/selected. Matching is case/punctuation-insensitive and fuzzy. Edit this file to support new export formats - no code changes needed.",
+  "fields": {
+    "external_post_id": {
+      "type": "id",
+      "label": "Post ID",
+      "aliases": [
+        "post id",
+        "id",
+        "media id",
+        "content id",
+        "post_id",
+        "postid",
+        "item id"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "video id"
+        ],
+        "linkedin": [
+          "update id",
+          "urn",
+          "activity urn",
+          "post urn"
+        ]
+      }
+    },
+    "published_at": {
+      "type": "datetime",
+      "label": "Publish date/time",
+      "required": true,
+      "aliases": [
+        "publish time",
+        "published",
+        "publish date",
+        "date",
+        "post date",
+        "posted",
+        "posted at",
+        "published at",
+        "date published",
+        "created",
+        "created date",
+        "created time",
+        "time",
+        "timestamp",
+        "post time",
+        "posted on"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "video post time",
+          "post time"
+        ],
+        "linkedin": [
+          "created date",
+          "date posted"
+        ]
+      }
+    },
+    "permalink": {
+      "type": "text",
+      "label": "Permalink",
+      "aliases": [
+        "permalink",
+        "link",
+        "url",
+        "post link",
+        "post url"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "video link"
+        ],
+        "linkedin": [
+          "update link",
+          "post link"
+        ]
+      }
+    },
+    "post_type": {
+      "type": "category",
+      "label": "Post type",
+      "aliases": [
+        "post type",
+        "type",
+        "media type",
+        "content type",
+        "format",
+        "media product type",
+        "post format"
+      ],
+      "platform_aliases": {
+        "linkedin": [
+          "content type"
+        ],
+        "facebook": [
+          "post type"
+        ]
+      }
+    },
+    "caption": {
+      "type": "longtext",
+      "label": "Caption / text",
+      "aliases": [
+        "caption",
+        "description",
+        "text",
+        "message",
+        "post text",
+        "content",
+        "copy",
+        "post caption",
+        "title"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "video title",
+          "video description"
+        ],
+        "linkedin": [
+          "update title",
+          "post title",
+          "commentary",
+          "post content"
+        ]
+      }
+    },
+    "hashtags": {
+      "type": "text",
+      "label": "Hashtags",
+      "aliases": [
+        "hashtags",
+        "tags",
+        "hashtag"
+      ]
+    },
+    "content_topic": {
+      "type": "category",
+      "label": "Content topic",
+      "aliases": [
+        "topic",
+        "content topic",
+        "theme",
+        "category",
+        "content category"
+      ]
+    },
+    "content_pillar": {
+      "type": "category",
+      "label": "Content pillar",
+      "aliases": [
+        "pillar",
+        "content pillar"
+      ]
+    },
+    "cta_type": {
+      "type": "category",
+      "label": "CTA type",
+      "aliases": [
+        "cta",
+        "cta type",
+        "call to action"
+      ]
+    },
+    "hook_type": {
+      "type": "category",
+      "label": "Hook type",
+      "aliases": [
+        "hook",
+        "hook type"
+      ]
+    },
+    "paid_or_organic": {
+      "type": "category",
+      "label": "Paid / organic",
+      "aliases": [
+        "paid or organic",
+        "paid organic",
+        "distribution",
+        "boosted",
+        "sponsored",
+        "promotion type"
+      ],
+      "platform_aliases": {
+        "linkedin": [
+          "update type"
+        ]
+      }
+    },
+    "likes": {
+      "type": "number",
+      "label": "Likes / reactions",
+      "aliases": [
+        "likes",
+        "like",
+        "reactions",
+        "total likes",
+        "hearts",
+        "like count"
+      ],
+      "platform_aliases": {
+        "facebook": [
+          "reactions",
+          "post reactions"
+        ],
+        "linkedin": [
+          "reactions",
+          "likes"
+        ],
+        "tiktok": [
+          "total likes"
+        ]
+      }
+    },
+    "comments": {
+      "type": "number",
+      "label": "Comments",
+      "aliases": [
+        "comments",
+        "comment",
+        "total comments",
+        "comment count",
+        "replies"
+      ]
+    },
+    "shares": {
+      "type": "number",
+      "label": "Shares / reposts",
+      "aliases": [
+        "shares",
+        "share",
+        "total shares",
+        "reposts",
+        "repost",
+        "share count"
+      ],
+      "platform_aliases": {
+        "linkedin": [
+          "reposts"
+        ]
+      }
+    },
+    "saves": {
+      "type": "number",
+      "label": "Saves / favorites",
+      "aliases": [
+        "saves",
+        "save",
+        "saved",
+        "bookmarks",
+        "favorites",
+        "favourites"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "add to favorites",
+          "favorites",
+          "total favorites"
+        ]
+      }
+    },
+    "views": {
+      "type": "number",
+      "label": "Views / plays",
+      "aliases": [
+        "views",
+        "video views",
+        "plays",
+        "total views",
+        "view count",
+        "total plays",
+        "3 second video views"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "video views",
+          "total views"
+        ],
+        "linkedin": [
+          "views excluding off site video views",
+          "video views"
+        ],
+        "facebook": [
+          "3 second video views",
+          "video views"
+        ]
+      }
+    },
+    "reach": {
+      "type": "number",
+      "label": "Reach",
+      "aliases": [
+        "reach",
+        "accounts reached",
+        "post reach",
+        "unique reach",
+        "people reached",
+        "total reach"
+      ],
+      "platform_aliases": {
+        "tiktok": [
+          "reached audience",
+          "total reached audience"
+        ],
+        "facebook": [
+          "post reach",
+          "reach"
+        ]
+      }
+    },
+    "impressions": {
+      "type": "number",
+      "label": "Impressions",
+      "aliases": [
+        "impressions",
+        "total impressions",
+        "post impressions"
+      ]
+    },
+    "clicks": {
+      "type": "number",
+      "label": "Clicks",
+      "aliases": [
+        "clicks",
+        "total clicks",
+        "post clicks",
+        "link clicks"
+      ],
+      "platform_aliases": {
+        "facebook": [
+          "total clicks",
+          "post clicks"
+        ],
+        "linkedin": [
+          "clicks"
+        ]
+      }
+    },
+    "profile_visits": {
+      "type": "number",
+      "label": "Profile visits",
+      "aliases": [
+        "profile visits",
+        "profile views",
+        "profile activity"
+      ]
+    },
+    "website_clicks": {
+      "type": "number",
+      "label": "Website clicks",
+      "aliases": [
+        "website clicks",
+        "website taps",
+        "link taps",
+        "external link taps",
+        "bio link clicks"
+      ],
+      "platform_aliases": {
+        "facebook": [
+          "link clicks"
+        ],
+        "instagram": [
+          "website taps",
+          "link taps"
+        ]
+      }
+    },
+    "followers": {
+      "type": "number",
+      "label": "Followers (total)",
+      "aliases": [
+        "followers",
+        "follower count",
+        "total followers",
+        "page likes",
+        "audience size"
+      ]
+    },
+    "followers_gained": {
+      "type": "number",
+      "label": "Followers gained",
+      "aliases": [
+        "follows",
+        "new followers",
+        "followers gained",
+        "follower growth",
+        "net followers"
+      ],
+      "platform_aliases": {
+        "linkedin": [
+          "follows"
+        ],
+        "tiktok": [
+          "new followers"
+        ]
+      }
+    },
+    "watch_time_seconds": {
+      "type": "duration",
+      "label": "Total watch time",
+      "aliases": [
+        "total play time",
+        "total watch time",
+        "watch time",
+        "seconds viewed",
+        "total time watched",
+        "minutes viewed"
+      ]
+    },
+    "average_watch_time_seconds": {
+      "type": "duration",
+      "label": "Average watch time",
+      "aliases": [
+        "average watch time",
+        "avg watch time",
+        "average seconds viewed",
+        "average time watched",
+        "avg view duration"
+      ]
+    },
+    "video_duration_seconds": {
+      "type": "duration",
+      "label": "Video duration",
+      "aliases": [
+        "duration",
+        "video duration",
+        "duration sec",
+        "length",
+        "video length",
+        "duration seconds"
+      ]
+    },
+    "completion_rate": {
+      "type": "percent",
+      "label": "Completion rate",
+      "aliases": [
+        "completion rate",
+        "watched full video",
+        "full video watched",
+        "percentage watched full video",
+        "completion"
+      ]
+    },
+    "engaged_users": {
+      "type": "number",
+      "label": "Engaged users",
+      "aliases": [
+        "engaged users",
+        "engaged accounts",
+        "accounts engaged",
+        "engagements unique"
+      ]
+    },
+    "ad_spend": {
+      "type": "number",
+      "label": "Ad spend",
+      "aliases": [
+        "ad spend",
+        "spend",
+        "amount spent",
+        "cost"
+      ]
+    },
+    "conversions": {
+      "type": "number",
+      "label": "Conversions",
+      "aliases": [
+        "conversions",
+        "purchases",
+        "results"
+      ]
+    },
+    "leads": {
+      "type": "number",
+      "label": "Leads",
+      "aliases": [
+        "leads",
+        "lead",
+        "form submissions",
+        "leads generated"
+      ]
+    }
+  },
+  "platform_signatures": {
+    "instagram": {
+      "columns": [
+        "accounts reached",
+        "saves",
+        "profile visits",
+        "website taps",
+        "account username",
+        "ig reel",
+        "reels"
+      ],
+      "values": [
+        "ig reel",
+        "ig carousel",
+        "ig image",
+        "reel",
+        "carousel_album",
+        "carousel"
+      ],
+      "filename": [
+        "instagram",
+        "insta",
+        "ig_",
+        "ig-"
+      ]
+    },
+    "facebook": {
+      "columns": [
+        "page id",
+        "page name",
+        "reactions",
+        "post reach",
+        "total clicks",
+        "link clicks",
+        "other clicks",
+        "3 second video views",
+        "seconds viewed"
+      ],
+      "values": [
+        "photos",
+        "links",
+        "status",
+        "videos"
+      ],
+      "filename": [
+        "facebook",
+        "fb_",
+        "fb-",
+        "meta page"
+      ]
+    },
+    "tiktok": {
+      "columns": [
+        "total play time",
+        "average watch time",
+        "watched full video",
+        "video views",
+        "video link",
+        "add to favorites",
+        "reached audience",
+        "video title"
+      ],
+      "values": [],
+      "filename": [
+        "tiktok",
+        "tik tok",
+        "tt_"
+      ]
+    },
+    "linkedin": {
+      "columns": [
+        "update title",
+        "update link",
+        "update type",
+        "reposts",
+        "click through rate ctr",
+        "posted by",
+        "campaign name",
+        "views excluding off site video views"
+      ],
+      "values": [
+        "organic",
+        "sponsored",
+        "document"
+      ],
+      "filename": [
+        "linkedin",
+        "li_",
+        "li-"
+      ]
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "explicit_percent_inflated": [
+    50.0,
+    100.0
+  ],
+  "missing_engagement_reported_as_zero": {
+    "engagement_rate": 0.0,
+    "total_engagement": "not available"
+  },
+  "mixed_timezone_naive_row": {
+    "actual_utc": "2026-09-02T12:00:00+00:00",
+    "expected_utc": "2026-09-02T08:00:00+00:00"
+  },
+  "malformed_csv_silently_dropped": {
+    "source_data_rows": 3,
+    "parsed_rows": 2
+  },
+  "unsupported_small_stat_verified": {
+    "numbers_checked": 1,
+    "unverified_count": 0,
+    "issues": [],
+    "status": "verified",
+    "method": "Numbers in evidence/explanation/summary fields matched against the analytics payload at the precision written."
+  },
+  "fdr_preselection": {
+    "tested_terms": 10,
+    "terms_sent_to_correction": 1,
+    "reported_adjusted_p": 0.04,
+    "all_terms_adjusted_p": 0.4
+  },
+  "reimport_erases_ai_classification": {
+    "before_source": "ai",
+    "after_source": null,
+    "id_changed": true
+  },
+  "failed_reimport_deletes_existing_posts": {
+    "before": 2,
+    "after": 0,
+    "file_status": "failed"
+  },
+  "failed_batch_upload_partially_commits": {
+    "http_status": 415,
+    "files_saved": 1
+  },
+  "unicode_csv_export": {
+    "http_status": 500
+  },
+  "nullable_update_vs_database": {
+    "http_status": 500
+  },
+  "report_mixes_runs": {
+    "report_analysis_version": 2,
+    "audit_version_in_report": 1,
+    "same_analytics_run": false
+  },
+  "unicode_html_export": {
+    "http_status": 500
+  },
+  "unauthenticated_project_access": {
+    "list_status": 200,
+    "read_status": 200,
+    "delete_status": 204
+  }
+}
